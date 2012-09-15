@@ -17,6 +17,7 @@
     "128" : "icon-128.png"
   },
   "permissions" : [
-    "tabs"
+    "tabs",
+    "https://*.udjplayer.com/"
   ]
 }
