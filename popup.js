@@ -20,17 +20,18 @@
 $(document).ready(function(){
  function doLogin(){
   function loginSuccess(data){
-    alert("Login awesome! " + data);
+    localStorage['ticket_hash'] = data['ticket_hash']
+    $("#login_status").html("Logged in!");
   }
   function loginError(jqXHR, textStatus, error){
-    alert("Login error! \n" + textStatus + "\nError: " + error);
+    $("#login_status").html("Login Failed!");
   }
 
 
   var enteredUsername = $("#username").val();
   var enteredPassword = $("#password").val();
-
-  alert("Attempting login with: " + enteredUsername + " and password " + enteredPassword);
+  
+  $("#login_status").html("Logging in...");
   $.ajax({
     type : 'POST',
     url : "https://www.udjplayer.com/udj/0_6/auth", 
@@ -41,5 +42,7 @@ $(document).ready(function(){
  }
 
  $("#loginbutton").click(doLogin)
+
+
 });
 
