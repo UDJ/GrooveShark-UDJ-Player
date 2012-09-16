@@ -17,39 +17,39 @@
  * along with UDJ.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function showPlayerDashBoard(){
+function showPlayerCreation(){
   $("#login-page").hide();
-  $("#player-dashboard").show();
+  $("#player-creation").show();
+}
+
+function doLogin(){
+  function loginSuccess(data){
+    localStorage['ticket_hash'] = data['ticket_hash']
+    $("#login-status").html("Logged in!");
+    setTimeout(showPlayerCreation, 750);
+  }
+  function loginError(jqXHR, textStatus, error){
+    $("#login-status").html("Login Failed!");
+  }
+
+  var enteredUsername = $("#username").val();
+  var enteredPassword = $("#password").val();
+
+  $("#login-status").html("Logging in...");
+  $("#login-status").show();
+  $.ajax({
+    type : 'POST',
+    url : "https://www.udjplayer.com/udj/0_6/auth", 
+    data : { username : enteredUsername, password : enteredPassword},
+    success : loginSuccess,
+    error : loginError
+  });
 }
 
 $(document).ready(function(){
 
-  function doLogin(){
-    function loginSuccess(data){
-      localStorage['ticket_hash'] = data['ticket_hash']
-      $("#login-status").html("Logged in!");
-      setTimeout(showPlayerDashBoard, 750);
-    }
-    function loginError(jqXHR, textStatus, error){
-      $("#login-status").html("Login Failed!");
-    }
-
-
-    var enteredUsername = $("#username").val();
-    var enteredPassword = $("#password").val();
-    
-    $("#login-status").html("Logging in...");
-    $("#login-status").show();
-    $.ajax({
-      type : 'POST',
-      url : "https://www.udjplayer.com/udj/0_6/auth", 
-      data : { username : enteredUsername, password : enteredPassword},
-      success : loginSuccess,
-      error : loginError
-    });
-  }
-
-  $("#loginbutton").click(doLogin)
+  $("#loginbutton").click(doLogin);
+  $("#create-player-button").click(createPlayer);
 
 });
 
